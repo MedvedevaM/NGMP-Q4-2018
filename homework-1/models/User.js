@@ -1,8 +1,9 @@
-export default class User {
-    constructor(name) {
-        this.name = name;
+export class User {
+    constructor() {
+        this.name = 'User module';
     }
-};
-
-console.log('User module');
+    logModuleName() {
+        console.log(this.name);
+    }
+}
 

@@ -1,7 +1,8 @@
-export default class Product {
-    constructor(name) {
-        this.name = name;
+export class Product {
+    constructor() {
+        this.name = 'Product module';
     }
-};
-
-console.log('Product module');
+    logModuleName() {
+        console.log(this.name);
+    }
+}
