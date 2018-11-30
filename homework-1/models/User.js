@@ -1,6 +1,6 @@
-export class User {
-    constructor() {
-        this.name = 'User module';
+export default class User {
+    constructor(name) {
+        this.name = name;
     }
     logModuleName() {
         console.log(this.name);
