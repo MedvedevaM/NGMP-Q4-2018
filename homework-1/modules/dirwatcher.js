@@ -15,16 +15,16 @@ export default class DirWatcher extends EventEmitter {
           console.log(error);
         }
 
-        if (!this.dirs || !this.isEqual(this.dirs, files)) {
+        if (!this.isEqual(this.dirs, files)) {
           this.dirs = files;
-          this.emit('changed', files);
+          console.log('changed');
+          this.emit('changed', files);    
         }
       });
     }, delay);
   }
 
   isEqual(prevDirs, dirs) {
-    return prevDirs.length === dirs.length &&
-      prevDirs.filter(prevDir => !dirs.includes(prevDir)).length > 0;
+    return prevDirs.length === dirs.length && prevDirs.filter(prevDir => !dirs.includes(prevDir)).length === 0;
   }
 }
