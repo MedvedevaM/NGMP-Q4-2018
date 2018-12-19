@@ -14,5 +14,9 @@
     "@babel/preset-env": "^7.1.6",
     "@babel/register": "^7.0.0",
     "nodemon": "^1.18.7"
+  },
+  "dependencies": {
+    "csvjson": "^5.1.0",
+    "fs-extra": "^7.0.1"
   }
 }
