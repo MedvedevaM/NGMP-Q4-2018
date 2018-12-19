@@ -6,3 +6,4 @@ export default class Product {
         console.log(this.name);
     }
 }
+
