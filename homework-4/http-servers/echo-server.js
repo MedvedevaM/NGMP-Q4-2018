@@ -3,7 +3,7 @@ const port = 8080;
 
 const server = http.createServer((request, response) => {
     response.writeHead(200);
-    response.pipe(response);
+    request.pipe(response);
 });
 
 server.listen(port);
