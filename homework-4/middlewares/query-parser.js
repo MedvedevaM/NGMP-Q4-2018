@@ -1,5 +1,5 @@
 const url = require('url');
-const queryString = require('queryString');
+const queryString = require('querystring');
 
 function queryParser(req, res, next) {
     const { query } = url.parse(req.url);
