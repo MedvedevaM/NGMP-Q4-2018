@@ -34,9 +34,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser);
 app.use(queryParser);
-app.use('/', router);
-app.use('/', productRouter);
-app.use('/', userRouter);
+
+router(app);
+productRouter(app);
+userRouter(app);
 app.use('/', authRouter);
 
 module.exports = { app };
