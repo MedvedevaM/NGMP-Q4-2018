@@ -11,12 +11,14 @@ const localAuthStrategy = require('./auth/localStrategy');
 const facebookAuthStrategy = require('./auth/facebookStrategy');
 const twitterStrategy = require('./auth/twitterStrategy');
 const googleAuthStrategy = require('./auth/googleOAuthStrategy');
+const sequelize = require('./db/connect');
 
 const app = express();
 
+
 localAuthStrategy();
 facebookAuthStrategy();
-twitterStrategy();
+// twitterStrategy();
 googleAuthStrategy();
 
 app.use(expressSession({
@@ -35,9 +37,12 @@ app.use(passport.session());
 app.use(cookieParser);
 app.use(queryParser);
 
-router(app);
-productRouter(app);
-userRouter(app);
-app.use('/', authRouter);
+sequelize.sync().then(() => {
+        router(app);
+        productRouter(app);
+        userRouter(app);
+        app.use('/', authRouter);
+    }
+);
 
 module.exports = { app };

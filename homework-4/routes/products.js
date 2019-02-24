@@ -1,27 +1,26 @@
-const data = require('../fakeData/data');
 const jwtVerifier = require('../middlewares/jwtVerifier');
+const getAll = require('../controllers/productsController').getAll;
+const getOne = require('../controllers/productsController').getOne;
+const create = require('../controllers/productsController').create;
+const getReviews = require('../controllers/productsController').getReviews;
 
 const router = app => {
     app.route('/api/products')
         .get(jwtVerifier, (req, res) => {
-            console.log(req.parsedQuery);
-            res.json(data.products);
+            getAll().then(products => res.send(products));
         })
         .post(jwtVerifier, (req, res) => {
-            data.products = [...data.products, req.body];
-            res.json(req.body);
+            create(req.body).then(product => res.json(product));
         });
 
     app.route('/api/products/:id')
         .get(jwtVerifier, (req, res) => {
-            const product = data.products.filter(product => product.id === req.params.id);
-            product === [] ? res.send({}) : res.json(product[0]);
+            getOne(req.params.id).then(product => res.send(product));
         });
     
     app.route('/api/products/:id/reviews')
         .get(jwtVerifier, (req, res) => {
-            const productReviews = data.reviews.filter(review => review.productId === req.params.id);
-            res.json(productReviews);
+            getReviews(req.params.id).then(reviews => res.send(reviews));
         });
 };
 
