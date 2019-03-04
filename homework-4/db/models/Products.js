@@ -1,16 +1,21 @@
-const Sequelize = require('sequelize');
+const mongoose = require('mongoose');
+const db = require('../connect');
+const products = require('../../data/products.json');
 
-module.exports = (sequelize) => {
-    const Products = sequelize.define('products', {
-        id: {
-            type: Sequelize.UUID,
-            primaryKey: true
-        },
-        name: Sequelize.STRING,
-        brand: Sequelize.STRING
-    }, {
-        tableName: 'nodejs.products'
-    });
+const ProductSchema = new mongoose.Schema({
+    name: String,
+    lastModifiedDate: Date
+});
 
-    return Products;
-};
+ProductSchema.pre('save', function (next) {
+    if (!this.lastModifiedDate) this.lastModifiedDate = new Date;
+    next();
+});
+
+const Product = db.model("Product", ProductSchema);
+
+Product.collection.insertMany(products, (err, res) => {
+    console.log(err)
+});
+
+module.exports = Product;

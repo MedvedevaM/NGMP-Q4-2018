@@ -7,11 +7,12 @@ const router = require('./routes/router');
 const productRouter = require('./routes/products');
 const userRouter = require('./routes/users');
 const authRouter = require('./routes/auth');
+const cityRouter = require('./routes/cities');
 const localAuthStrategy = require('./auth/localStrategy');
 const facebookAuthStrategy = require('./auth/facebookStrategy');
 const twitterStrategy = require('./auth/twitterStrategy');
 const googleAuthStrategy = require('./auth/googleOAuthStrategy');
-const sequelize = require('./db/connect');
+// const MongoClient = require('./db/mongodb');
 
 const app = express();
 
@@ -37,12 +38,11 @@ app.use(passport.session());
 app.use(cookieParser);
 app.use(queryParser);
 
-sequelize.sync().then(() => {
-        router(app);
-        productRouter(app);
-        userRouter(app);
-        app.use('/', authRouter);
-    }
-);
+
+router(app);
+productRouter(app);
+userRouter(app);
+cityRouter(app);
+app.use('/', authRouter);
 
 module.exports = { app };
