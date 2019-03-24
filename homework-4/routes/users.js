@@ -1,20 +1,27 @@
-const jwtVerifier = require('../middlewares/jwtVerifier');
-const getAll = require('../controllers/userController').getAll;
-const getOne = require('../controllers/userController').getOne;
-const create = require('../controllers/userController').create;
+const Users = require('../db/models/Users');
+const Products = require('../db/models/Products');
 
 const router = app => {
     app.route('/api/users')
-        .get(jwtVerifier, (req, res) => {
-            getAll().then(users => res.send(users));
+        .get((req, res) => {
+            Users.find((err, result) => {
+                res.send(result);
+            });
         })
-        .post(jwtVerifier, (req, res) => {
+        .post((req, res) => {
             create(req.body).then(user => res.json(user));
         });
     app.route('/api/users/:id')
-        .get(jwtVerifier, (req, res) => {
-            getOne(req.params.id).then(user => res.send(user));
-        });
+        .get((req, res) => {
+            Users.findByIdAndUpdate(req.params.id, req.body, { upsert: true }, (err, result) => {
+                res.send(err ? err : result);
+            });
+        })
+        .delete((req, res) => {
+            Users.deleteOne({ _id: req.params.id }, (err) => {
+                res.send(err ? err : "Success");
+            });
+        })
 };
 
 module.exports = router;
