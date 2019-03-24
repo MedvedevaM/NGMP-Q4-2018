@@ -1,6 +1,8 @@
 const express = require('express');
 const expressSession = require('express-session');
 const passport = require('passport');
+const swaggerUi = require('swagger-ui-express');
+const yamljs = require('yamljs');
 const cookieParser = require('./middlewares/cookie-parser');
 const queryParser = require('./middlewares/query-parser');
 const router = require('./routes/router');
@@ -15,6 +17,7 @@ const googleAuthStrategy = require('./auth/googleOAuthStrategy');
 // const MongoClient = require('./db/mongodb');
 
 const app = express();
+const swaggerDoc = yamljs.load('./swagger.yaml');
 
 
 localAuthStrategy();
@@ -44,5 +47,6 @@ productRouter(app);
 userRouter(app);
 cityRouter(app);
 app.use('/', authRouter);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 module.exports = { app };
